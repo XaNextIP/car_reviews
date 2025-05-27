@@ -1,0 +1,72 @@
+[
+  {
+    "model": "reviews.country",
+    "pk": 1,
+    "fields": {
+      "name": "Germany"
+    }
+  },
+  {
+    "model": "reviews.country",
+    "pk": 2,
+    "fields": {
+      "name": "Japan"
+    }
+  },
+  {
+    "model": "reviews.manufacturer",
+    "pk": 1,
+    "fields": {
+      "name": "BMW",
+      "country": 1
+    }
+  },
+  {
+    "model": "reviews.manufacturer",
+    "pk": 2,
+    "fields": {
+      "name": "Toyota",
+      "country": 2
+    }
+  },
+  {
+    "model": "reviews.car",
+    "pk": 1,
+    "fields": {
+      "name": "X5",
+      "manufacturer": 1,
+      "start_year": 1999,
+      "end_year": 2024
+    }
+  },
+  {
+    "model": "reviews.car",
+    "pk": 2,
+    "fields": {
+      "name": "Corolla",
+      "manufacturer": 2,
+      "start_year": 1966,
+      "end_year": 2025
+    }
+  },
+  {
+    "model": "reviews.comment",
+    "pk": 1,
+    "fields": {
+      "email": "ivan@example.com",
+      "car": 1,
+      "created_at": "2024-12-01T12:00:00Z",
+      "content": "Хорошая управляемость и комфорт."
+    }
+  },
+  {
+    "model": "reviews.comment",
+    "pk": 2,
+    "fields": {
+      "email": "anna@example.com",
+      "car": 2,
+      "created_at": "2025-01-15T08:30:00Z",
+      "content": "Очень надёжная машина, но дорогие запчасти."
+    }
+  }
+]
