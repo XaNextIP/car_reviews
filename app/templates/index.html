@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Car Reviews Admin</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+  <h1>Car Reviews — Управление</h1>
+
+  <div id="auth">
+    <input type="text" id="username" placeholder="Username" autocomplete="username" />
+    <input type="password" id="password" placeholder="Password" autocomplete="current-password" />
+    <button onclick="getToken()">Получить токен</button>
+  </div>
+  <p id="tokenStatus"></p>
+
+  <button id="refreshButton" onclick="loadAll()">🔄 Обновить все</button>
+  <p id="errorDisplay"></p>
+
+  <section class="crud-section" id="countries">
+    <h2>Страны</h2>
+    <form id="countryForm">
+      <input type="text" id="countryName" placeholder="Название страны" required />
+      <button type="submit">Добавить страну</button>
+    </form>
+    <table id="countryTable" aria-label="Список стран"></table>
+  </section>
+
+  <section class="crud-section" id="manufacturers">
+    <h2>Производители</h2>
+    <form id="manufacturerForm">
+      <input type="text" id="manufacturerName" placeholder="Название производителя" required />
+      <div class="input-group">
+        <input type="text" id="manufacturerCountryInput" placeholder="Страна" autocomplete="off" required />
+        <div id="manufacturerCountrySuggestions" class="autocomplete-box"></div>
+      </div>
+      <button type="submit">Добавить производителя</button>
+    </form>
+    <table id="manufacturerTable" aria-label="Список производителей"></table>
+  </section>
+
+  <section class="crud-section" id="cars">
+    <h2>Автомобили</h2>
+    <form id="carForm">
+      <input type="text" id="carName" placeholder="Название автомобиля" required />
+      <input type="number" id="carStart" placeholder="Год начала выпуска" min="1886" max="{{ current_year }}" required />
+      <input type="number" id="carEnd" placeholder="Год окончания выпуска" min="1886" max="{{ current_year_plus_5 }}" required />
+      <div class="input-group">
+        <input type="text" id="carManufacturerInput" placeholder="Производитель" autocomplete="off" required />
+        <div id="carManufacturerSuggestions" class="autocomplete-box"></div>
+      </div>
+      <button type="submit">Добавить автомобиль</button>
+    </form>
+    <table id="carTable" aria-label="Список автомобилей"></table>
+  </section>
+
+  <section class="crud-section" id="comments">
+    <h2>Комментарии</h2>
+    <form id="commentForm">
+      <input type="email" id="commentEmail" placeholder="Ваш email" required />
+      <textarea id="commentContent" placeholder="Комментарий" required></textarea>
+      <div class="input-group">
+        <input type="text" id="commentCarInput" placeholder="Автомобиль" autocomplete="off" required />
+        <div id="commentCarSuggestions" class="autocomplete-box"></div>
+      </div>
+      <button type="submit">Добавить комментарий</button>
+    </form>
+    <table id="commentTable" aria-label="Список комментариев"></table>
+  </section>
+
+  <script>
+    const apiBase = "{% url 'api-root' %}".replace(/\/$/, '');
+  </script>
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
