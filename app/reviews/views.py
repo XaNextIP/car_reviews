@@ -22,10 +22,15 @@ from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework.reverse import reverse
 from rest_framework.permissions import AllowAny
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 class IsAdminToken(permissions.BasePermission):
     def has_permission(self, request, view):
         return request.auth is not None
+    
+class IndexView(TemplateView):
+    template_name = "index.html"
 
 class ExportMixin:
     def _export_data(self, queryset, fields, filename, fmt):
@@ -74,6 +79,7 @@ class CountryViewSet(viewsets.ModelViewSet, ExportMixin):
         'update': [permissions.IsAdminUser],
         'destroy': [permissions.IsAdminUser],
     }
+    queryset = Country.objects.all().order_by('id')
 
     def get_permissions(self):
         return [perm() for perm in
@@ -112,6 +118,7 @@ class ManufacturerViewSet(viewsets.ModelViewSet, ExportMixin):
         'update': [permissions.IsAdminUser],
         'destroy': [permissions.IsAdminUser],
     }
+    queryset = Manufacturer.objects.all().order_by('id')
 
     def get_permissions(self):
         return [perm() for perm in
@@ -141,6 +148,10 @@ class CarViewSet(viewsets.ModelViewSet, ExportMixin):
         'update': [permissions.IsAdminUser],
         'destroy': [permissions.IsAdminUser],
     }
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['manufacturer__name', 'start_year', 'end_year']
+    search_fields = ['name']
+    queryset = Car.objects.all().order_by('id')
 
     def get_permissions(self):
         return [perm() for perm in
@@ -180,7 +191,8 @@ class CommentViewSet(viewsets.ModelViewSet, ExportMixin):
         'update': [permissions.IsAdminUser],
         'destroy': [permissions.IsAdminUser],
     }
-
+    queryset = Comment.objects.all().order_by('created_at')
+    
     def get_permissions(self):
         return [perm() for perm in
                 self.permission_classes_by_action.get(self.action,
